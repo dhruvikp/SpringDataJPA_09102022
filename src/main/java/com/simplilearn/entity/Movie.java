@@ -1,9 +1,12 @@
 package com.simplilearn.entity;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 @Entity
@@ -20,6 +23,19 @@ public class Movie {
 
 	@Column(name = "movie_genre")
 	private String genre;
+	
+	@ManyToOne(cascade=CascadeType.ALL)
+	@JoinColumn(name="director_id")
+	private Director director;
+	
+	
+	public Director getDirector() {
+		return director;
+	}
+
+	public void setDirector(Director director) {
+		this.director = director;
+	}
 
 	public int getId() {
 		return id;

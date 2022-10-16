@@ -1,5 +1,6 @@
 package com.simplilearn.controller;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,7 +20,6 @@ public class MovieController {
 	@Autowired
 	MovieService movieService;
 
-	
 	@GetMapping("/movies")
 	public List<Movie> getAllMovies() {
 		return movieService.getAllMovies();
@@ -30,9 +30,21 @@ public class MovieController {
 		movieService.saveMovie(movie);
 		return movie.getId();
 	}
-	
+
 	@DeleteMapping("/movies/{id}")
 	public void deleteMoveById(@PathVariable("id") int id) {
 		movieService.delete(id);
+	}
+
+	@GetMapping("/movies/director/{directorName}")
+	public List<String> getMoviesByDirectorName(@PathVariable("directorName") String directorName) {
+
+		List<String> movieNames = new ArrayList<String>();
+		List<Movie> movies = movieService.getMovieByDirectorName(directorName);
+
+		if (movies != null && movies.size() > 0) {
+			movies.forEach(m -> movieNames.add(m.getName()));
+		}
+		return movieNames;
 	}
 }
